@@ -1,0 +1,156 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "17",
+        "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_COLOR_DIAGNOSTICS": "ON"
+      }
+    },
+    {
+      "name": "dev",
+      "inherits": "default",
+      "displayName": "Development build with sanitizers",
+      "description": "Debug build with ASan, UBSan, and warnings as errors",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "ON",
+        "ENABLE_WERROR": "ON"
+      }
+    },
+    {
+      "name": "dev-fast",
+      "inherits": "default",
+      "displayName": "Fast development (no sanitizers)",
+      "description": "Debug build without sanitizers for faster iteration",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "OFF",
+        "ENABLE_WERROR": "OFF"
+      }
+    },
+    {
+      "name": "release",
+      "inherits": "default",
+      "displayName": "Release build",
+      "description": "Optimized release build without sanitizers",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ENABLE_SANITIZERS": "OFF",
+        "ENABLE_WERROR": "OFF"
+      }
+    },
+    {
+      "name": "asan",
+      "inherits": "default",
+      "displayName": "AddressSanitizer intensive",
+      "description": "Full sanitizers with extra checks for memory leaks",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "ON",
+        "ENABLE_ASAN_EXTRA": "ON",
+        "ENABLE_WERROR": "ON"
+      }
+    },
+    {
+      "name": "tsan",
+      "inherits": "default",
+      "displayName": "ThreadSanitizer",
+      "description": "Detect data races and threading issues",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "ON",
+        "ENABLE_TSAN": "ON",
+        "ENABLE_WERROR": "ON"
+      }
+    },
+    {
+      "name": "ci",
+      "inherits": "default",
+      "displayName": "CI build",
+      "description": "Build for continuous integration with tests",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "ON",
+        "ENABLE_TESTS": "ON",
+        "ENABLE_BENCHMARKS": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "displayName": "Build dev",
+      "description": "Build development version"
+    },
+    {
+      "name": "dev-fast",
+      "configurePreset": "dev-fast",
+      "displayName": "Build dev-fast",
+      "description": "Build fast development version"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "displayName": "Build release",
+      "description": "Build release version"
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "displayName": "Build with ASAN",
+      "description": "Build with address sanitizer"
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "displayName": "Build with TSAN",
+      "description": "Build with thread sanitizer"
+    },
+    {
+      "name": "ci",
+      "configurePreset": "ci",
+      "displayName": "CI build",
+      "description": "Build for CI"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "displayName": "Test dev",
+      "description": "Run tests for dev build"
+    },
+    {
+      "name": "dev-fast",
+      "configurePreset": "dev-fast",
+      "displayName": "Test dev-fast",
+      "description": "Run tests for fast dev build"
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "displayName": "Test with ASAN",
+      "description": "Run tests with sanitizers"
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "displayName": "Test with TSAN",
+      "description": "Run tests with thread sanitizer"
+    }
+  ]
+}
